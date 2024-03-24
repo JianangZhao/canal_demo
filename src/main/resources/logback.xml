@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="false">
+<configuration scan="false" scanPeriod="1 seconds" debug="false">
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
-    <property name="LOG_HOME" value="../log" />
+    <property name="LOG_HOME" value="log" />
 
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>stdout %d %p - %m%n</pattern>
+        </encoder>
+    </appender>
     <!-- 定义一个日滚动（每天生成一份）的日志文件 -->
     <appender name="file_out" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -40,10 +45,10 @@
         </encoder>
     </appender>
 
-
     <!-- 定义日志全局最低输出级别，同时向控制台和日滚动文件输出 -->
     <root level="INFO">
-        <appender-ref ref="file_out" />
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="file_out"/>
 <!--        <appender-ref ref="CONSOLE" />-->
     </root>
 </configuration>

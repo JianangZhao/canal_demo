@@ -6,6 +6,9 @@ import com.alibaba.otter.canal.protocol.CanalEntry;
 import com.alibaba.otter.canal.protocol.Message;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
+import org.example.handler.UserHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
@@ -19,7 +22,7 @@ import java.util.Map;
  */
 @Component
 public class CanalListener {
-
+    Logger log = LoggerFactory.getLogger(CanalListener.class);
         public void printCanalLog(){
             //获取canal连接对象
             CanalConnector canalConnector = CanalConnectors.newSingleConnector(
@@ -35,7 +38,7 @@ public class CanalListener {
                 //一条数据对应一条entry
                 List<CanalEntry.Entry> entries = message.getEntries();
                 if (entries.size()<=0){
-                    System.out.println("没有数据休息一会");
+                    log.info("没有数据休息一会");
                     i++;
                     try {
                         Thread.sleep(1000);
@@ -76,9 +79,9 @@ public class CanalListener {
                                 for (CanalEntry.Column column : afterColumnsList) {
                                     aMap.put(column.getName(), column.getValue());
                                 }
-                                System.out.println("表名：" + tableName + "操作类型：" + eventType);
-                                System.out.println("改前：" + bMap);
-                                System.out.println("改后：" + aMap);
+                                log.info("表名：" + tableName + "操作类型：" + eventType);
+                                log.info("改前：" + bMap);
+                                log.info("改后：" + aMap);
                             }
 
                         }
